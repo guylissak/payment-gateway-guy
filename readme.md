@@ -1,6 +1,6 @@
 Payment-Gateway mission
 
-- develop in typescript
+- developed in typescript
 
 Install
 
