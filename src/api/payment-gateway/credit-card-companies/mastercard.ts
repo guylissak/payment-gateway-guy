@@ -7,14 +7,17 @@ import {
 } from "../interfaces";
 import CreditCardCompany from "./company";
 import { loggerFactory, CustomLogger } from "../../../logging";
+import { getConfig } from "../../../configurations";
 
 // Mastercard Implementation of CreditCardCompany
 export default class Mastercard extends CreditCardCompany {
   private logger: CustomLogger;
+  private mastercardUrl: string;
 
   constructor() {
     super();
     this.logger = loggerFactory("MASTERCARD");
+    this.mastercardUrl = getConfig().companies.mastercardUrl;
   }
 
   // getCompanyName - return the company name
@@ -42,7 +45,7 @@ export default class Mastercard extends CreditCardCompany {
 
     const config = this.getHeaders([{ key: "identifier", value: firstName }]);
     try {
-      await this.submit("https://interview.riskxint.com/mastercard/capture_card", mastercardPayload, config);
+      await this.submit(this.mastercardUrl, mastercardPayload, config);
 
       return this.handleResponse(200);
     } catch (err) {

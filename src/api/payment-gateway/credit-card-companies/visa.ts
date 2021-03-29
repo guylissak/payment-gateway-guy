@@ -1,16 +1,19 @@
 import { IChargePayload, IVisaRequest, IVisaResponse, IChargeResponse, CreditCardCompanyEnum } from "../interfaces";
 import CreditCardCompany from "./company";
 import { loggerFactory, CustomLogger } from "../../../logging";
+import { getConfig } from "../../../configurations";
 
 const FAILURE = "Failure";
 
 // Visa implementation of CreditCardCompany
 export default class Visa extends CreditCardCompany {
   private logger: CustomLogger;
+  private visaUrl: string;
 
   constructor() {
     super();
     this.logger = loggerFactory("VISA");
+    this.visaUrl = getConfig().companies.visaUrl;
   }
 
   // getCompanyName - return the company type Visa
@@ -35,7 +38,7 @@ export default class Visa extends CreditCardCompany {
     const firstName = payload.fullName.split(" ")[0];
     const config = this.getHeaders([{ key: "identifier", value: firstName }]);
     try {
-      const result = await this.submit("https://interview.riskxint.com/visa/api/chargeCard", visaPayload, config);
+      const result = await this.submit(this.visaUrl, visaPayload, config);
       return this.handleResponse(200, result.data);
     } catch (err) {
       console.log(err);

@@ -1,4 +1,8 @@
 {
   "retry_count": 3,
-  "server_port": 8000
+  "server_port": 8000,
+  "companies": {
+    "visa_url": "https://interview.riskxint.com/visa/api/chargeCard",
+    "mastercard_url": "https://interview.riskxint.com/mastercard/capture_card"
+  }
 }
